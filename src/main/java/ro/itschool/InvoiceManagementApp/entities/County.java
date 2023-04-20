@@ -21,9 +21,9 @@ public class County {
     @Column(name = "name", nullable = false)
     private String countyName;
 
-    @ToString.Exclude
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    @MapsId
-    private User user;
+//    @ToString.Exclude
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id")
+//    @MapsId
+//    private User user;
 }

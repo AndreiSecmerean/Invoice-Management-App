@@ -28,17 +28,15 @@ public class User {
     private String password;
 
 
-    @Column(name = "city")
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "city", referencedColumnName = "id")
     @ToString.Exclude
     private City city;
 
-    @Column(name = "county")
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     @ToString.Exclude
-    private String county;
+    private County county;
 
     @Column(name = "address")
     private String address;
