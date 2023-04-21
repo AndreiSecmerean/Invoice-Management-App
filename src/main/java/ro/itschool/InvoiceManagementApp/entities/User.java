@@ -30,14 +30,20 @@ public class User {
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "city", referencedColumnName = "id")
     @ToString.Exclude
     private City city;
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "county", referencedColumnName = "id")
     @ToString.Exclude
     private County county;
 
     @Column(name = "address")
     private String address;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private Admin admin;
 }
