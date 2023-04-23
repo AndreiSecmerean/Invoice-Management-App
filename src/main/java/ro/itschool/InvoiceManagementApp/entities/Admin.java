@@ -20,6 +20,6 @@ public class Admin {
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn
     private User userId;
 }

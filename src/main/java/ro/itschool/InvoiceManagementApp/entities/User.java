@@ -44,6 +44,12 @@ public class User {
     private String address;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @ToString.Exclude
+    @MapsId
+    @JoinColumn(name = "id")
     private Admin admin;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    private Client client;
 }
