@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "user" , schema = "invoice_db_v2")
 @ToString
-public class User {
+public class UserEntity {
          // Start of the user details section \\
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +33,13 @@ public class User {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "city", referencedColumnName = "id")
     @ToString.Exclude
-    private City city;
+    private CityEntity city;
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ToString.Exclude
-    private County county;
+    private CountyEntity county;
 
     @Column(name = "address")
     private String address;
@@ -50,16 +50,16 @@ public class User {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private Admin admin;
+    private AdminEntity admin;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private Client client;
+    private ClientEntity client;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
-    private UtilityProvider utilityProvider;
+    private UtilityProviderEntity utilityProvider;
         // End of the relations section \\
 }

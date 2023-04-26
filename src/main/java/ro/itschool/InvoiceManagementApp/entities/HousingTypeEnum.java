@@ -1,6 +1,6 @@
 package ro.itschool.InvoiceManagementApp.entities;
 
-public enum HousingType {
+public enum HousingTypeEnum {
     apartment,
     pent_house,
     flat,

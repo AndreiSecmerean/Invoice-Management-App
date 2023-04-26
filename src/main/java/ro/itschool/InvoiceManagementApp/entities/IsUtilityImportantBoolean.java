@@ -1,6 +1,6 @@
 package ro.itschool.InvoiceManagementApp.entities;
 
-public enum IsUtilityImportant {
+public enum IsUtilityImportantBoolean {
     yes,
     no;
 }

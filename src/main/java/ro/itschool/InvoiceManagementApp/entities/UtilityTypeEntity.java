@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "utility_type " , schema = "invoice_db_v2")
-public class UtilityType {
+public class UtilityTypeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +22,9 @@ public class UtilityType {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "utility_name",nullable = false)
-    private UtilityTypeName utilityTypeName;
+    private UtilityTypeNameEnum utilityTypeName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "is_important",nullable = false)
-    private IsUtilityImportant isUtilityImportant;
+    private IsUtilityImportantBoolean isUtilityImportant;
 }

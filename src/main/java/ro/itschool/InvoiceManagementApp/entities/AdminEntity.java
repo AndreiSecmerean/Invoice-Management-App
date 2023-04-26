@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @ToString
 @Table(name = "admin", schema = "invoice_db_v2")
-public class Admin {
+public class AdminEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +23,5 @@ public class Admin {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     @ToString.Exclude
-    private User userId;
+    private UserEntity userId;
 }

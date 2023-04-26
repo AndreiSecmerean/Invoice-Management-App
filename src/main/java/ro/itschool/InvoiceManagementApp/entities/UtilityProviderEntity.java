@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "utility_provider" , schema = "invoice_db_v2")
-public class UtilityProvider {
+public class UtilityProviderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,11 @@ public class UtilityProvider {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    private User userId;
+    private UserEntity userId;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "utility_type_id", referencedColumnName ="id")
-    private List<UtilityType> utilityTypeId;
+    private List<UtilityTypeEntity> utilityTypeId;
 
     @Column(name = "price_per_unit", nullable = false)
     private double pricePerUnit;

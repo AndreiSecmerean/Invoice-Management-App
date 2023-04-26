@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @ToString
 @Table(name = "client", schema = "invoice_db_v2")
-public class Client {
+public class ClientEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +24,8 @@ public class Client {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     @ToString.Exclude
-    private User userId;
+    private UserEntity userId;
 
     @Enumerated(EnumType.STRING)
-    private HousingType housingType;
+    private HousingTypeEnum housingType;
 }

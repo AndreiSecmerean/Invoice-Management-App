@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "county" , schema = "invoice_db_v2")
 @ToString
-public class County {
+public class CountyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class County {
     private int id;
 
     @Column(name = "name", nullable = false)
-    private String countyName;
+    private String name;
 
 //    @ToString.Exclude                         /\/\ new cities and counties can be added only by the admin separately and not when creating a new user/\/\
 //    @OneToOne(cascade = CascadeType.ALL)

@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "invoice" , schema = "invoice_db_v2")
 @ToString
-public class Invoice {
+public class InvoiceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +23,12 @@ public class Invoice {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = " client_id", referencedColumnName = "id")
     @ToString.Exclude
-    private Client clientId;
+    private ClientEntity clientId;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "utility_provider_id", referencedColumnName = "id")
     @ToString.Exclude
-    private List<UtilityProvider> utilityProviderId;
+    private List<UtilityProviderEntity> utilityProviderId;
 
     @Column(name = "sum_to_pay", nullable = false)
     private int sumToPay;
