@@ -21,7 +21,7 @@ public class County {
     @Column(name = "name", nullable = false)
     private String countyName;
 
-//    @ToString.Exclude
+//    @ToString.Exclude                         /\/\ new cities and counties can be added only by the admin separately and not when creating a new user/\/\
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "id")
 //    @MapsId

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 @Table(name = "client", schema = "invoice_db_v2")
 public class Client {
 
@@ -22,7 +23,9 @@ public class Client {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    @ToString.Exclude
     private User userId;
 
+    @Enumerated(EnumType.STRING)
     private HousingType housingType;
 }

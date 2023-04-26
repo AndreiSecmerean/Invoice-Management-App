@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "user" , schema = "invoice_db_v2")
 @ToString
 public class User {
-
+         // Start of the user details section \\
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,9 +26,10 @@ public class User {
 
     @Column(name="password", nullable = false, length = 50)
     private String password;
+        // End of the user details section \\
 
 
-
+        // Start of the address section \\
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "city", referencedColumnName = "id")
     @ToString.Exclude
@@ -42,7 +43,10 @@ public class User {
 
     @Column(name = "address")
     private String address;
+        // End of the address section \\
 
+
+         // Start of the relations section \\
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
@@ -52,4 +56,10 @@ public class User {
     @MapsId
     @JoinColumn(name = "id")
     private Client client;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "id")
+    private UtilityProvider utilityProvider;
+        // End of the relations section \\
 }
