@@ -10,18 +10,18 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @ToString
 @Table(name = "admin", schema = "invoice_db_v2")
-public class AdminEntity {
+@PrimaryKeyJoinColumn(name = "id")
+public class AdminEntity extends UserEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ToString.Exclude
     private UserEntity userId;
 }

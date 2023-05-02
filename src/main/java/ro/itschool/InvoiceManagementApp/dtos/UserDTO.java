@@ -2,6 +2,8 @@ package ro.itschool.InvoiceManagementApp.dtos;
 
 import lombok.*;
 import org.apache.catalina.User;
+import ro.itschool.InvoiceManagementApp.entities.CityEntity;
+import ro.itschool.InvoiceManagementApp.entities.CountyEntity;
 import ro.itschool.InvoiceManagementApp.entities.UserEntity;
 import ro.itschool.InvoiceManagementApp.validators.NoDigits;
 
@@ -33,9 +35,9 @@ public class UserDTO {
 
 
     // Start of the address section \\
-    private String cityName;
+    private CityEntity cityName;
 
-    private String countyName;
+    private CountyEntity countyName;
 
     private String address;
     // End of the address section \\
@@ -47,8 +49,8 @@ public class UserDTO {
                 .name(userEntity.getName())
                 .email(userEntity.getEmail())
                 .password(userEntity.getPassword())
-                .cityName(userEntity.getCity().getName())
-                .countyName(userEntity.getCounty().getName())
+                .cityName(userEntity.getCity())
+                .countyName(userEntity.getCounty())
                 .address(userEntity.getAddress())
                 .build();
     }

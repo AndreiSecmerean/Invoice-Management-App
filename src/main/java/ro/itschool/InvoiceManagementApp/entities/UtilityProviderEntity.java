@@ -1,9 +1,6 @@
 package ro.itschool.InvoiceManagementApp.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,7 +18,8 @@ public class UtilityProviderEntity {
     private Integer id;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ToString.Exclude
     private UserEntity userId;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

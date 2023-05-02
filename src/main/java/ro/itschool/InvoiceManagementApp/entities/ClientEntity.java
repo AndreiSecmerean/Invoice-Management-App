@@ -11,20 +11,16 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @ToString
 @Table(name = "client", schema = "invoice_db_v2")
-public class ClientEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+@PrimaryKeyJoinColumn(name = "id")
+public class ClientEntity extends UserEntity{
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ToString.Exclude
-    private UserEntity userId;
+    private UserEntity userEntity;
 
     @Enumerated(EnumType.STRING)
     private HousingTypeEnum housingType;

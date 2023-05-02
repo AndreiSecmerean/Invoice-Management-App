@@ -1,8 +1,8 @@
 package ro.itschool.InvoiceManagementApp.entities;
 
 public enum HousingTypeEnum {
-    apartment,
-    pent_house,
-    flat,
-    house;
+    APARTMENT,
+    PENT_HOUSE,
+    FLAT,
+    HOUSE;
 }

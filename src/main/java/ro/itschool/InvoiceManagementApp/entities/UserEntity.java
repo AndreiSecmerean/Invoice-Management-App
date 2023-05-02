@@ -10,9 +10,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user" , schema = "invoice_db_v2")
+@Inheritance(strategy = InheritanceType.JOINED)
 @ToString
 public class UserEntity {
-         // Start of the user details section \\
+    // Start of the user details section \\
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,10 +27,10 @@ public class UserEntity {
 
     @Column(name="password", nullable = false, length = 50)
     private String password;
-        // End of the user details section \\
+    // End of the user details section \\
 
 
-        // Start of the address section \\
+    // Start of the address section \\
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "city", referencedColumnName = "id")
     @ToString.Exclude
@@ -43,23 +44,25 @@ public class UserEntity {
 
     @Column(name = "address")
     private String address;
-        // End of the address section \\
+    // End of the address section \\
 
 
-         // Start of the relations section \\
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private AdminEntity admin;
+    // Start of the relations section \\
+//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @MapsId
+//    @JoinColumn(name = "id")
+//    private AdminEntity admin;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private ClientEntity client;
+//        @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @PrimaryKeyJoinColumn
+//    @ToString.Exclude
+//    private ClientEntity client;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private UtilityProviderEntity utilityProvider;
-        // End of the relations section \\
+//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @MapsId
+//    @JoinColumn(name = "id")
+//    private UtilityProviderEntity utilityProvider;
+    // End of the relations section \\
 }
+
+
