@@ -1,4 +1,4 @@
-package ro.itschool.InvoiceManagementApp.dtos;
+package ro.itschool.InvoiceManagementApp.dtos.client;
 
 import lombok.*;
 import ro.itschool.InvoiceManagementApp.entities.CityEntity;
