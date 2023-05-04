@@ -18,7 +18,7 @@ public class ClientEntity extends UserEntity{
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id ", referencedColumnName = "id")
     @ToString.Exclude
     private UserEntity userEntity;
 

@@ -28,7 +28,7 @@ public class ClientService {
 
 
     public ClientEntity findById(int id) throws InexistentResourceException {
-        return this.clientRepository.findById(id).orElseThrow(() -> new InexistentResourceException("Client does not exist", id));
+        return (ClientEntity) this.userRepository.findById(id).orElseThrow(() -> new InexistentResourceException("Client does not exist", id));
     }
 
     public Iterable<ClientEntity> findAll() {

@@ -16,7 +16,8 @@ public class UserEntity {
     // Start of the user details section \\
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "id")
+    private Integer id;
 
 
     @Column(name = "name", nullable = false, length = 50)
@@ -47,22 +48,7 @@ public class UserEntity {
     // End of the address section \\
 
 
-    // Start of the relations section \\
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @MapsId
-//    @JoinColumn(name = "id")
-//    private AdminEntity admin;
 
-//        @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @PrimaryKeyJoinColumn
-//    @ToString.Exclude
-//    private ClientEntity client;
-
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @MapsId
-//    @JoinColumn(name = "id")
-//    private UtilityProviderEntity utilityProvider;
-    // End of the relations section \\
 }
 
 
