@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Table(name = "admin", schema = "invoice_db_v2")
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class AdminEntity extends UserEntity {
 
 //    @Id
@@ -20,8 +20,7 @@ public class AdminEntity extends UserEntity {
 //    private Integer id;
 
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private UserEntity userId;
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private AdminTypeEnum adminTypeEnum;
 }

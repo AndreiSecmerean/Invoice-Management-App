@@ -16,10 +16,8 @@ public class UserEntity {
     // Start of the user details section \\
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
-
-
+    
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 

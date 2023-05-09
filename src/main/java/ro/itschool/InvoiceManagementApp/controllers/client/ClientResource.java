@@ -1,4 +1,4 @@
-package ro.itschool.InvoiceManagementApp.controllers;
+package ro.itschool.InvoiceManagementApp.controllers.client;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ro.itschool.InvoiceManagementApp.dtos.client.ClientDTO;
 import ro.itschool.InvoiceManagementApp.dtos.client.ClientListDTO;
 import ro.itschool.InvoiceManagementApp.entities.ClientEntity;
@@ -46,13 +43,12 @@ public class ClientResource {
         return new ResponseEntity<>(clientListDTO, HttpStatus.OK);
     }
 
-    @Operation(summary = "Getting clients by their id")
+    @Operation(summary = "Getting clients by their index")
+    @GetMapping("/{index}")
+    public ResponseEntity<ClientDTO> getById(@Min(1) @PathVariable("index") Integer index) throws InexistentResourceException {
+        log.info("getting client by index");
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ClientDTO> getById(@Min(1) @PathVariable("id") Integer id) throws InexistentResourceException {
-        log.info("getting client by id");
-
-        ClientEntity foundClient = this.clientService.findById(id);
+        ClientEntity foundClient = this.clientService.findById(index);
 
         log.debug("found client");
 
@@ -61,7 +57,12 @@ public class ClientResource {
         log.debug("saved found client in a ClientDTO");
 
         return new ResponseEntity<>(clientDTO, HttpStatus.OK);
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id){
+        this.clientService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
 //TODO: implement CRUD operations

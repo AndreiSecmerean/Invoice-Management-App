@@ -27,8 +27,9 @@ public class ClientService {
     private UserRepository userRepository;
 
 
-    public ClientEntity findById(int id) throws InexistentResourceException {
-        return (ClientEntity) this.userRepository.findById(id).orElseThrow(() -> new InexistentResourceException("Client does not exist", id));
+    public ClientEntity findById(int index) throws InexistentResourceException {
+        // return (ClientEntity) this.userRepository.findById(index).orElseThrow(() -> new InexistentResourceException("Client does not exist", id));
+        return this.clientRepository.findById(index).orElseThrow(() -> new InexistentResourceException("Client does not exist", index));
     }
 
     public Iterable<ClientEntity> findAll() {
@@ -40,39 +41,21 @@ public class ClientService {
     public ClientEntity add(ClientDTO clientDTO, UserDTO userDTO) {
         log.info("Adding new client");
 
-        UserEntity newUser = new UserEntity();
 
-        newUser.setName(userDTO.getName());
-        newUser.setEmail(userDTO.getEmail());
-        newUser.setPassword(userDTO.getPassword());
-        newUser.setCity(userDTO.getCityName());
-        newUser.setCounty(userDTO.getCountyName());
-        newUser.setAddress(userDTO.getAddress());
+        //TODO: Test the both versions to see which works better
 
-        UserEntity savedUser = userRepository.save(newUser);
+        ClientEntity newClientEntity = new ClientEntity();
+        newClientEntity.setName(clientDTO.getName());
+        newClientEntity.setEmail(clientDTO.getEmail());
+        newClientEntity.setPassword(clientDTO.getPassword());
+        newClientEntity.setCity(clientDTO.getCity());
+        newClientEntity.setCounty(clientDTO.getCounty());
+        newClientEntity.setAddress(clientDTO.getAddress());
+        newClientEntity.setHousingType(clientDTO.getHousingType());
 
-        ClientEntity newClient = new ClientEntity();
-        newClient.setHousingType(clientDTO.getHousingType());
-        newClient.setUserEntity(newUser);
-
-
-        ClientEntity savedClient = clientRepository.save(newClient);
-
-        //TODO: Test the both versions to see which works
-
-//        ClientEntity newClientEntity = new ClientEntity();
-//        newClientEntity.setName(clientDTO.getName());
-//        newClientEntity.setEmail(clientDTO.getEmail());
-//        newClientEntity.setPassword(clientDTO.getPassword());
-//        newClientEntity.setCity(clientDTO.getCity());
-//        newClientEntity.setCounty(clientDTO.getCounty());
-//        newClientEntity.setAddress(clientDTO.getAddress());
-//        newClientEntity.setHousingType(clientDTO.getHousingType());
-//
-//        ClientEntity savedNewClientEntity = clientRepository.save(newClientEntity);
-//        return savedNewClientEntity;
+        ClientEntity savedNewClientEntity = this.clientRepository.save(newClientEntity);
         log.info("Added new client");
-        return savedClient;
+        return savedNewClientEntity;
 
     }
 
@@ -133,11 +116,11 @@ public class ClientService {
             clientPartialUpdate.setName(clientDTO.getName());
         }
 
-        if(clientDTO.getEmail()!=null){
+        if (clientDTO.getEmail() != null) {
             clientPartialUpdate.setName(clientDTO.getEmail());
         }
 
-        if(clientDTO.getPassword()!=null){
+        if (clientDTO.getPassword() != null) {
             clientPartialUpdate.setPassword(clientPartialUpdate.getPassword());
         }
 

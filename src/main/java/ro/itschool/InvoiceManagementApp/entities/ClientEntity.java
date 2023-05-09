@@ -7,21 +7,20 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Table(name = "client", schema = "invoice_db_v2")
-@PrimaryKeyJoinColumn(name = "id")
+@PrimaryKeyJoinColumn(name = "index")
 public class ClientEntity extends UserEntity{
 
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id ", referencedColumnName = "id")
-    @ToString.Exclude
-    private UserEntity userEntity;
+
+//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @ToString.Exclude
+//    private UserEntity userEntity;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "housing_type")
     private HousingTypeEnum housingType;
 }

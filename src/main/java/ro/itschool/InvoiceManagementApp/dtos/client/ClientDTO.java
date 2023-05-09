@@ -7,6 +7,8 @@ import ro.itschool.InvoiceManagementApp.entities.CountyEntity;
 import ro.itschool.InvoiceManagementApp.entities.HousingTypeEnum;
 import ro.itschool.InvoiceManagementApp.validators.NoDigits;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -19,13 +21,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientDTO  {
-    private Integer id;
+
 
     @NotEmpty
+    @NotNull
     private Integer userId;
 
     @NotEmpty
     @NoDigits(message = "Housing type cannot contain digits")
+    @Enumerated(EnumType.STRING)
     private HousingTypeEnum housingType;
 
     @NotEmpty
@@ -45,15 +49,14 @@ public class ClientDTO  {
 
     public static ClientDTO from(ClientEntity clientEntity){
         return ClientDTO.builder()
-                .id(clientEntity.getId())
-                .userId(clientEntity.getUserEntity().getId())
+                .userId(clientEntity.getId())
+                .name(clientEntity.getName())
                 .housingType(clientEntity.getHousingType())
-                .name(clientEntity.getUserEntity().getName())
-                .email(clientEntity.getUserEntity().getEmail())
-                .password(clientEntity.getUserEntity().getPassword())
-                .city(clientEntity.getUserEntity().getCity())
-                .county(clientEntity.getUserEntity().getCounty())
-                .address(clientEntity.getUserEntity().getAddress())
+                .email(clientEntity.getEmail())
+                .password(clientEntity.getPassword())
+                .city(clientEntity.getCity())
+                .county(clientEntity.getCounty())
+                .address(clientEntity.getAddress())
                 .build();
     }
 
