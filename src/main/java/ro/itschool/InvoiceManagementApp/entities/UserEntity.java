@@ -17,11 +17,11 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
+
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "email",nullable = false, length = 50)
+    @Column(name = "email", length = 50)
     private String email;
 
     @Column(name="password", nullable = false, length = 50)
@@ -30,13 +30,13 @@ public class UserEntity {
 
 
     // Start of the address section \\
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city", referencedColumnName = "id")
     @ToString.Exclude
     private CityEntity city;
 
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "county", referencedColumnName = "id")
     @ToString.Exclude
     private CountyEntity county;
@@ -44,9 +44,6 @@ public class UserEntity {
     @Column(name = "address")
     private String address;
     // End of the address section \\
-
-
-
 }
 
 

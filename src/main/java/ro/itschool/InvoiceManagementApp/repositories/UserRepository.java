@@ -6,7 +6,7 @@ import ro.itschool.InvoiceManagementApp.entities.UserEntity;
 import java.util.List;
 
 public interface UserRepository extends CrudRepository<UserEntity, Integer> {
-    UserEntity findByNameIgnoreCase(String name);
+    List<UserEntity> findByNameIgnoreCase(String name);
     UserEntity findByEmailIgnoreCase(String email);
 
     List<UserEntity> findByCityNameIgnoreCase(String cityName);

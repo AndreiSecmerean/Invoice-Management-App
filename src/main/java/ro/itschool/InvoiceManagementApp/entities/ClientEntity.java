@@ -11,16 +11,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Table(name = "client", schema = "invoice_db_v2")
-@PrimaryKeyJoinColumn(name = "index")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class ClientEntity extends UserEntity{
 
-
-
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    private UserEntity userEntity;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "housing_type")
     private HousingTypeEnum housingType;
+
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id",insertable = false, updatable = false)
+//    private UserEntity user;
 }

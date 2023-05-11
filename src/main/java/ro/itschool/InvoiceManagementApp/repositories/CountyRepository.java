@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CountyRepository extends CrudRepository<CountyEntity, Integer> {
 
-    List<CountyEntity> findByNameIgnoreCase(String countyName);
+    CountyEntity findByNameIgnoreCase(String countyName);
 }

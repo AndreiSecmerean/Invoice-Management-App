@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import ro.itschool.InvoiceManagementApp.dtos.client.ClientDTO;
 import ro.itschool.InvoiceManagementApp.dtos.client.ClientListDTO;
 import ro.itschool.InvoiceManagementApp.entities.ClientEntity;
+import ro.itschool.InvoiceManagementApp.entities.HousingTypeEnum;
 import ro.itschool.InvoiceManagementApp.exceptions.InexistentResourceException;
 import ro.itschool.InvoiceManagementApp.services.ClientService;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +61,25 @@ public class ClientResource {
         return new ResponseEntity<>(clientDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Integer id){
-        this.clientService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @PostMapping
+    public ResponseEntity<ClientDTO> create(@Valid @RequestBody ClientDTO clientDTO) {
+        ClientEntity clientEntity = this.clientService.add(clientDTO);
+        return new ResponseEntity<>(ClientDTO.from(clientEntity), HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/searchClient/{param}")
+    public ResponseEntity<List<ClientDTO>> search(@PathVariable("param") String searchTerm) {
+        List<ClientDTO> clientDTOS = ClientDTO.from(this.clientService.searchClients(searchTerm));
+
+        return new ResponseEntity<>(clientDTOS, HttpStatus.FOUND);
+    }
+
+    @DeleteMapping("/{index}")
+    public ResponseEntity<String> delete(@PathVariable("index") Integer index) {
+        this.clientService.delete(index);
+        String response = "Client with id " + index + " has been deleted!";
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
 //TODO: implement CRUD operations

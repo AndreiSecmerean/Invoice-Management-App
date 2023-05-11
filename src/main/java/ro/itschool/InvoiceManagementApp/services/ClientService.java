@@ -5,12 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.itschool.InvoiceManagementApp.dtos.client.ClientDTO;
-import ro.itschool.InvoiceManagementApp.dtos.UserDTO;
-import ro.itschool.InvoiceManagementApp.entities.ClientEntity;
-import ro.itschool.InvoiceManagementApp.entities.HousingTypeEnum;
-import ro.itschool.InvoiceManagementApp.entities.UserEntity;
+import ro.itschool.InvoiceManagementApp.entities.*;
 import ro.itschool.InvoiceManagementApp.exceptions.InexistentResourceException;
+import ro.itschool.InvoiceManagementApp.repositories.CityRepository;
 import ro.itschool.InvoiceManagementApp.repositories.ClientRepository;
+import ro.itschool.InvoiceManagementApp.repositories.CountyRepository;
 import ro.itschool.InvoiceManagementApp.repositories.UserRepository;
 
 import java.util.ArrayList;
@@ -26,6 +25,12 @@ public class ClientService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private CountyRepository countyRepository;
+
 
     public ClientEntity findById(int index) throws InexistentResourceException {
         // return (ClientEntity) this.userRepository.findById(index).orElseThrow(() -> new InexistentResourceException("Client does not exist", id));
@@ -33,59 +38,45 @@ public class ClientService {
     }
 
     public Iterable<ClientEntity> findAll() {
-        return clientRepository.findAll();
+        return this.clientRepository.findAll();
     }
 
 
     @Transactional
-    public ClientEntity add(ClientDTO clientDTO, UserDTO userDTO) {
+    public ClientEntity add(ClientDTO clientDTO) {
         log.info("Adding new client");
+        CityEntity city = this.cityRepository.findByNameIgnoreCase(clientDTO.getCity());
+        CountyEntity county = this.countyRepository.findByNameIgnoreCase((clientDTO.getCounty()));
 
-
-        //TODO: Test the both versions to see which works better
-
+        log.info("Saving new ClientEntity for new db");
         ClientEntity newClientEntity = new ClientEntity();
+
         newClientEntity.setName(clientDTO.getName());
         newClientEntity.setEmail(clientDTO.getEmail());
         newClientEntity.setPassword(clientDTO.getPassword());
-        newClientEntity.setCity(clientDTO.getCity());
-        newClientEntity.setCounty(clientDTO.getCounty());
-        newClientEntity.setAddress(clientDTO.getAddress());
         newClientEntity.setHousingType(clientDTO.getHousingType());
+        newClientEntity.setCity(city);
+        newClientEntity.setCounty(county);
+        newClientEntity.setAddress(clientDTO.getAddress());
 
-        ClientEntity savedNewClientEntity = this.clientRepository.save(newClientEntity);
-        log.info("Added new client");
-        return savedNewClientEntity;
+        log.info("Saved new ClientEntity for new db");
+        log.info("Saving client to db");
+
+        ClientEntity savedClient = this.clientRepository.save(newClientEntity);
+
+        log.info("Saved client to db");
+        System.out.println(savedClient);
+
+        return savedClient;
+
 
     }
 
-    @Transactional
-    public List<ClientEntity> search(String name, String email, HousingTypeEnum housingTypeEnum) {
-        Iterable<ClientEntity> dbClients = clientRepository.findAll();
-
-        List<ClientEntity> foundClients = new ArrayList<>();
-
-        for (ClientEntity clientEntity : dbClients) {
-            foundClients.add(clientEntity);
-        }
-        //TODO : To implement
-        if (name != null && !name.isEmpty()) {
-            List<ClientEntity> clientByName = (List<ClientEntity>) this.userRepository.findByNameIgnoreCase(name);
-            foundClients.retainAll(clientByName);
-        }
-
-        if (email != null && !email.isEmpty()) {
-            List<ClientEntity> clientByEmail = (List<ClientEntity>) this.userRepository.findByEmailIgnoreCase(email);
-            foundClients.retainAll(clientByEmail);
-        }
-
-        if (housingTypeEnum != null && !housingTypeEnum.name().isEmpty()) { //TODO: ask if i should use .toString
-            List<ClientEntity> clientByHousingType = (List<ClientEntity>) this.clientRepository.findByHousingType(housingTypeEnum);
-            foundClients.retainAll(clientByHousingType);
-        }
-
-        return foundClients;
+    public List<ClientEntity> searchClients(String searchTerm) {
+        return this.clientRepository.searchClients(searchTerm);
     }
+
+
 
     public ClientEntity updateCredentials(int id, ClientDTO clientDTO) throws InexistentResourceException {
         Optional<ClientEntity> foundUser = this.clientRepository.findById(id);
@@ -99,6 +90,7 @@ public class ClientService {
         clientUpdate.setName(clientDTO.getName());
         clientUpdate.setEmail(clientDTO.getEmail());
         clientUpdate.setPassword(clientDTO.getPassword());
+
         this.clientRepository.save(clientUpdate);
         return clientUpdate;
     }
@@ -128,7 +120,10 @@ public class ClientService {
         return clientPartialUpdate;
     }
 
-    public void delete(int id) {
-        this.clientRepository.deleteById(id);
+    public void delete(Integer index) {
+        this.clientRepository.deleteById(index);
     }
+
+
+
 }

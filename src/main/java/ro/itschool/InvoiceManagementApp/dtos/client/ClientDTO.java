@@ -20,15 +20,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientDTO  {
+public class ClientDTO {
 
 
-    @NotEmpty
-    @NotNull
-    private Integer userId;
+    private Integer id;
 
-    @NotEmpty
-    @NoDigits(message = "Housing type cannot contain digits")
     @Enumerated(EnumType.STRING)
     private HousingTypeEnum housingType;
 
@@ -43,27 +39,40 @@ public class ClientDTO  {
     @NotNull
     private String password;
 
-    private CityEntity city;
-    private CountyEntity county;
+    private String city;
+    private String county;
     private String address;
 
     public static ClientDTO from(ClientEntity clientEntity){
         return ClientDTO.builder()
-                .userId(clientEntity.getId())
+                .id(clientEntity.getId())
                 .name(clientEntity.getName())
                 .housingType(clientEntity.getHousingType())
                 .email(clientEntity.getEmail())
                 .password(clientEntity.getPassword())
-                .city(clientEntity.getCity())
-                .county(clientEntity.getCounty())
+                .city(clientEntity.getCity().getName())
+                .county(clientEntity.getCounty().getName())
                 .address(clientEntity.getAddress())
                 .build();
     }
 
-    public static List<ClientDTO> from(List<ClientEntity> clientEntity){
+//    public static ClientDTO from(ClientEntity clientEntity) {
+//        return ClientDTO.builder()
+//                .id(clientEntity.getUser().getId())
+//                .name(clientEntity.getUser().getName())
+//                .housingType(clientEntity.getHousingType())
+//                .email(clientEntity.getUser().getEmail())
+//                .password(clientEntity.getUser().getPassword())
+//                .city(clientEntity.getUser().getCity())
+//                .county(clientEntity.getUser().getCounty())
+//                .address(clientEntity.getUser().getAddress())
+//                .build();
+//    }
+
+    public static List<ClientDTO> from(List<ClientEntity> clientEntity) {
         List<ClientDTO> resultingUsersDto = new ArrayList<>();
 
-        for(ClientEntity resultingClients : clientEntity){
+        for (ClientEntity resultingClients : clientEntity) {
             resultingUsersDto.add(ClientDTO.from(resultingClients));
         }
 
