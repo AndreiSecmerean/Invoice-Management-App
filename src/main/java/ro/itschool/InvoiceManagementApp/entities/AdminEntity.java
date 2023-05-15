@@ -22,5 +22,5 @@ public class AdminEntity extends UserEntity {
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private AdminTypeEnum adminTypeEnum;
+    private AdminTypeEnum adminType;
 }

@@ -56,18 +56,6 @@ public class ClientDTO {
                 .build();
     }
 
-//    public static ClientDTO from(ClientEntity clientEntity) {
-//        return ClientDTO.builder()
-//                .id(clientEntity.getUser().getId())
-//                .name(clientEntity.getUser().getName())
-//                .housingType(clientEntity.getHousingType())
-//                .email(clientEntity.getUser().getEmail())
-//                .password(clientEntity.getUser().getPassword())
-//                .city(clientEntity.getUser().getCity())
-//                .county(clientEntity.getUser().getCounty())
-//                .address(clientEntity.getUser().getAddress())
-//                .build();
-//    }
 
     public static List<ClientDTO> from(List<ClientEntity> clientEntity) {
         List<ClientDTO> resultingUsersDto = new ArrayList<>();

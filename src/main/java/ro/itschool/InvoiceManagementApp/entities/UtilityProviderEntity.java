@@ -1,31 +1,34 @@
 package ro.itschool.InvoiceManagementApp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Builder
 @Data
+@ToString
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "utility_provider" , schema = "invoice_db_v2")
-public class UtilityProviderEntity {
+@Table(name = "utility_provider", schema = "invoice_db_v2")
+@PrimaryKeyJoinColumn(name = "user_id")
+public class UtilityProviderEntity extends UserEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private UserEntity userId;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "utility_type_id", referencedColumnName ="id")
-    private List<UtilityTypeEntity> utilityTypeId;
+    @JoinTable(
+            name = "utility_provider_types",
+            joinColumns = {@JoinColumn(name = "utp_id")}, //owning
+            inverseJoinColumns = {@JoinColumn(name = "utt_id")} //non-owning
+    )
+    private List<UtilityTypeEntity> utilityType = new ArrayList<>();
 
-    @Column(name = "price_per_unit", nullable = false)
-    private double pricePerUnit;
+    @Column(name = "sustainability_score", nullable = false)
+    private double sustainabilityScore;
 }

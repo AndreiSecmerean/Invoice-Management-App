@@ -1,17 +1,17 @@
 package ro.itschool.InvoiceManagementApp.entities;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Builder
 @Data
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 @Table(name = "utility_type " , schema = "invoice_db_v2")
 public class UtilityTypeEntity {
@@ -21,10 +21,12 @@ public class UtilityTypeEntity {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "utility_name",nullable = false)
-    private UtilityTypeNameEnum utilityTypeName;
+    @Column(name = "name",nullable = false)
+    @Getter
+    private UtilityTypeNameEnum name;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "is_important",nullable = false)
-    private IsUtilityImportantBoolean isUtilityImportant;
+    private IsUtilityImportantBoolean isImportant;
+
 }

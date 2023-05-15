@@ -21,14 +21,14 @@ public class InvoiceEntity {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = " client_id", referencedColumnName = "id")
+    @JoinColumn(name = "client_id", referencedColumnName = "user_id")
     @ToString.Exclude
-    private ClientEntity clientId;
+    private ClientEntity client;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "utility_provider_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "utility_provider_id", referencedColumnName = "user_id")
     @ToString.Exclude
-    private List<UtilityProviderEntity> utilityProviderId;
+    private UtilityProviderEntity utilityProvider;
 
     @Column(name = "sum_to_pay", nullable = false)
     private int sumToPay;

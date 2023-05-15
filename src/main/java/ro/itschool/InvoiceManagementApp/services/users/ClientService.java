@@ -1,4 +1,4 @@
-package ro.itschool.InvoiceManagementApp.services;
+package ro.itschool.InvoiceManagementApp.services.users;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,7 @@ import ro.itschool.InvoiceManagementApp.exceptions.InexistentResourceException;
 import ro.itschool.InvoiceManagementApp.repositories.CityRepository;
 import ro.itschool.InvoiceManagementApp.repositories.ClientRepository;
 import ro.itschool.InvoiceManagementApp.repositories.CountyRepository;
-import ro.itschool.InvoiceManagementApp.repositories.UserRepository;
-
-import java.util.ArrayList;
+;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,17 +21,15 @@ public class ClientService {
     private ClientRepository clientRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private CityRepository cityRepository;
 
     @Autowired
     private CountyRepository countyRepository;
 
 
-    public ClientEntity findById(int index) throws InexistentResourceException {
-        // return (ClientEntity) this.userRepository.findById(index).orElseThrow(() -> new InexistentResourceException("Client does not exist", id));
+
+    //For admin:
+    public ClientEntity findById( int index) throws InexistentResourceException {
         return this.clientRepository.findById(index).orElseThrow(() -> new InexistentResourceException("Client does not exist", index));
     }
 
@@ -41,14 +37,20 @@ public class ClientService {
         return this.clientRepository.findAll();
     }
 
+    public Optional<List<ClientEntity>> searchClients(String searchTerm) {
+        return this.clientRepository.searchClients(searchTerm);
+    }
 
+
+
+    //For Client And Admin:
     @Transactional
     public ClientEntity add(ClientDTO clientDTO) {
         log.info("Adding new client");
         CityEntity city = this.cityRepository.findByNameIgnoreCase(clientDTO.getCity());
-        CountyEntity county = this.countyRepository.findByNameIgnoreCase((clientDTO.getCounty()));
+        CountyEntity county = this.countyRepository.findByNameIgnoreCase(clientDTO.getCounty());
 
-        log.info("Saving new ClientEntity for new db");
+        log.debug("Saving new ClientEntity to db");
         ClientEntity newClientEntity = new ClientEntity();
 
         newClientEntity.setName(clientDTO.getName());
@@ -59,33 +61,22 @@ public class ClientService {
         newClientEntity.setCounty(county);
         newClientEntity.setAddress(clientDTO.getAddress());
 
-        log.info("Saved new ClientEntity for new db");
-        log.info("Saving client to db");
+        log.debug("Saving client to db");
 
         ClientEntity savedClient = this.clientRepository.save(newClientEntity);
 
-        log.info("Saved client to db");
-        System.out.println(savedClient);
+        log.info("Added client to db");
 
         return savedClient;
 
 
     }
 
-    public List<ClientEntity> searchClients(String searchTerm) {
-        return this.clientRepository.searchClients(searchTerm);
-    }
 
+    @Transactional
+    public ClientEntity updateCredentials(Integer id, ClientDTO clientDTO) throws InexistentResourceException {
 
-
-    public ClientEntity updateCredentials(int id, ClientDTO clientDTO) throws InexistentResourceException {
-        Optional<ClientEntity> foundUser = this.clientRepository.findById(id);
-
-        if (!foundUser.isPresent()) {
-            throw new InexistentResourceException("Client does not exist", id);
-        }
-
-        ClientEntity clientUpdate = foundUser.get();
+        ClientEntity clientUpdate = findById(id);
 
         clientUpdate.setName(clientDTO.getName());
         clientUpdate.setEmail(clientDTO.getEmail());
@@ -95,10 +86,10 @@ public class ClientService {
         return clientUpdate;
     }
 
-    public ClientEntity updateCredentialsPartial(int id, ClientDTO clientDTO) throws InexistentResourceException {
+    public ClientEntity updateCredentialsPartial(Integer id, ClientDTO clientDTO) throws InexistentResourceException {
         Optional<ClientEntity> foundClient = this.clientRepository.findById(id);
 
-        if (!foundClient.isPresent()) {
+        if (foundClient.isEmpty()) {
             throw new InexistentResourceException("Client does not exist", id);
         }
 
@@ -120,10 +111,8 @@ public class ClientService {
         return clientPartialUpdate;
     }
 
-    public void delete(Integer index) {
-        this.clientRepository.deleteById(index);
+    public void delete(Integer id) throws InexistentResourceException {
+        this.clientRepository.deleteById(findById(id).getId());
+
     }
-
-
-
 }

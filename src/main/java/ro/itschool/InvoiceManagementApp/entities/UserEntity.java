@@ -3,6 +3,7 @@ package ro.itschool.InvoiceManagementApp.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Builder
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "user" , schema = "invoice_db_v2")
 @Inheritance(strategy = InheritanceType.JOINED)
 @ToString
-public class UserEntity {
+public class UserEntity implements Serializable {
     // Start of the user details section \\
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
