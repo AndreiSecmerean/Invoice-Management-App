@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -45,6 +47,14 @@ public class UserEntity implements Serializable {
     @Column(name = "address")
     private String address;
     // End of the address section \\
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="user_roles",
+            joinColumns = @JoinColumn(name="id_user", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name="id_role", referencedColumnName = "id")
+    )
+    private Set<RoleEntity> roles = new HashSet<>();
 }
 
 

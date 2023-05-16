@@ -80,13 +80,6 @@ public class AdminService {
     }
 
     public void delete(Integer id) throws InexistentResourceException {
-        Optional<AdminEntity> foundAdmin = this.adminRepository.findById(id);
-
-        if(foundAdmin.isEmpty()){
-            throw new InexistentResourceException("Admin does not exist with id: ",id);
-        }
-        else {
-            this.adminRepository.deleteById(id);
-        }
+        this.adminRepository.deleteById(findById(id).getId());
     }
 }

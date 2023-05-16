@@ -48,11 +48,11 @@ public class InvoiceService {
     @Transactional
     public InvoiceEntity add(SettingInvoiceDTO settingInvoiceDTO) throws InexistentResourceException {
         log.info("Adding new invoice");
-
+        log.debug("search city");
         Optional<List<ClientEntity>> searchClient = this.clientService.searchClients(settingInvoiceDTO.getClientEmail());
-        log.info("search c");
+        log.debug("search county");
         Optional<List<UtilityProviderEntity>> searchUtp = this.utilityProviderService.search(settingInvoiceDTO.getUtilityProviderEmail());
-        log.info("search u");
+
         if (searchClient.isEmpty()) {
             throw new InexistentResourceException("Client not found in database", null);
         }

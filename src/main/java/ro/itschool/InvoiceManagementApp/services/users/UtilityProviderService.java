@@ -44,16 +44,13 @@ public class UtilityProviderService {
 
 
     @Transactional
-    public UtilityProviderEntity add(UtilityTypeNameEnum utilityTypeName, UtilityProviderDTO utilityProviderDTO) {
+    public UtilityProviderEntity add(UtilityTypeNameEnum utilityTypeName, UtilityProviderDTO utilityProviderDTO) throws InexistentResourceException {
         log.info("Adding new Utility Provider");
 
-        CityEntity city = this.cityRepository.findByNameIgnoreCase(utilityProviderDTO.getCity());
-        CountyEntity county = this.countyRepository.findByNameIgnoreCase(utilityProviderDTO.getCounty());
 
-
-        Optional<UtilityTypeEntity> foundUtilityTypeEntityOptional = this.utilityTypeRepository.findByName(utilityTypeName);
-        UtilityTypeEntity foundType = foundUtilityTypeEntityOptional.get();
-
+        CityEntity city = this.cityRepository.findByNameIgnoreCase(utilityProviderDTO.getCity()).orElseThrow(()->new InexistentResourceException("County does not exist",null));
+        CountyEntity county = this.countyRepository.findByNameIgnoreCase(utilityProviderDTO.getCounty()).orElseThrow(()->new InexistentResourceException("County does not exist",null));
+        UtilityTypeEntity foundType = this.utilityTypeRepository.findByName(utilityTypeName).orElseThrow(() -> new InexistentResourceException("Utility type does not exist", null));
 
         log.debug("Saving UTP to db");
         UtilityProviderEntity newUtilityProvider = new UtilityProviderEntity();
@@ -83,10 +80,8 @@ public class UtilityProviderService {
     public UtilityProviderEntity updateCredentials(Integer id, UtilityTypeNameEnum utilityTypeName, UtilityProviderDTO utilityProviderDTO) throws InexistentResourceException {
         log.info("Searching for utility provider to update");
 
-        CityEntity city = this.cityRepository.findByNameIgnoreCase(utilityProviderDTO.getCity());
-        CountyEntity county = this.countyRepository.findByNameIgnoreCase(utilityProviderDTO.getCounty());
-
-
+        CityEntity city = this.cityRepository.findByNameIgnoreCase(utilityProviderDTO.getCity()).orElseThrow(()->new InexistentResourceException("County does not exist",null));
+        CountyEntity county = this.countyRepository.findByNameIgnoreCase(utilityProviderDTO.getCounty()).orElseThrow(()->new InexistentResourceException("County does not exist",null));
         UtilityTypeEntity foundType = this.utilityTypeRepository.findByName(utilityTypeName).orElseThrow(() -> new InexistentResourceException("Utility type does not exist", null));
 
 

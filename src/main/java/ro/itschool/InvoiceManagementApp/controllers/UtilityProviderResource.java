@@ -89,9 +89,13 @@ public class UtilityProviderResource {
 
     @PostMapping("/register/utilityTypeName={name}")
     public ResponseEntity<UtilityProviderDTO> register(@PathVariable("name")UtilityTypeNameEnum utilityTypeName, @Valid @RequestBody UtilityProviderDTO utilityProviderDTO){
-
-        UtilityProviderEntity utilityProvider = this.utilityProviderService.add(utilityTypeName, utilityProviderDTO);
-        return new ResponseEntity<>(UtilityProviderDTO.from(utilityProvider),HttpStatus.CREATED);
+        try{
+            UtilityProviderEntity utilityProvider = this.utilityProviderService.add(utilityTypeName, utilityProviderDTO);
+            return new ResponseEntity<>(UtilityProviderDTO.from(utilityProvider),HttpStatus.CREATED);
+        }catch (InexistentResourceException e){
+            log.error(e.getMessage()+e.getId());
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/updateCredentials/id={index}/utilityTypeName={name}")

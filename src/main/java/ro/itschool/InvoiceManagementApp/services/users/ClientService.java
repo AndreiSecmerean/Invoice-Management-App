@@ -43,13 +43,13 @@ public class ClientService {
 
 
 
-    //For Client And Admin:
     @Transactional
-    public ClientEntity add(ClientDTO clientDTO) {
+    public ClientEntity add(ClientDTO clientDTO) throws InexistentResourceException {
         log.info("Adding new client");
-        CityEntity city = this.cityRepository.findByNameIgnoreCase(clientDTO.getCity());
-        CountyEntity county = this.countyRepository.findByNameIgnoreCase(clientDTO.getCounty());
 
+
+        CityEntity city = this.cityRepository.findByNameIgnoreCase(clientDTO.getCity()).orElseThrow(()->new InexistentResourceException("County does not exist",null));
+        CountyEntity county = this.countyRepository.findByNameIgnoreCase(clientDTO.getCounty()).orElseThrow(()->new InexistentResourceException("County does not exist",null));
         log.debug("Saving new ClientEntity to db");
         ClientEntity newClientEntity = new ClientEntity();
 
@@ -76,7 +76,7 @@ public class ClientService {
     @Transactional
     public ClientEntity updateCredentials(Integer id, ClientDTO clientDTO) throws InexistentResourceException {
 
-        ClientEntity clientUpdate = findById(id);
+        ClientEntity clientUpdate = findById(id);//throws InexistentResourceException
 
         clientUpdate.setName(clientDTO.getName());
         clientUpdate.setEmail(clientDTO.getEmail());
@@ -87,13 +87,11 @@ public class ClientService {
     }
 
     public ClientEntity updateCredentialsPartial(Integer id, ClientDTO clientDTO) throws InexistentResourceException {
-        Optional<ClientEntity> foundClient = this.clientRepository.findById(id);
 
-        if (foundClient.isEmpty()) {
-            throw new InexistentResourceException("Client does not exist", id);
-        }
 
-        ClientEntity clientPartialUpdate = foundClient.get();
+        ClientEntity clientPartialUpdate = findById(id);//throws InexistentResourceException
+
+
 
         if (clientDTO.getName() != null) {
             clientPartialUpdate.setName(clientDTO.getName());
