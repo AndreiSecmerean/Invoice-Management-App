@@ -7,6 +7,8 @@ import ro.itschool.InvoiceManagementApp.scheduler.UtilityProviderReportSender;
 
 //@Component
 public class SendEmail implements CommandLineRunner {
+//TODO: fix email sending issue
+
 
     @Autowired
     private UtilityProviderReportSender utilityProviderReportSender;
