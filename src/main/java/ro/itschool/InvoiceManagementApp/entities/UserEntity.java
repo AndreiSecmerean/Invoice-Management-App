@@ -48,13 +48,6 @@ public class UserEntity implements Serializable {
     private String address;
     // End of the address section \\
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name="user_roles",
-            joinColumns = @JoinColumn(name="id_user", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name="id_role", referencedColumnName = "id")
-    )
-    private Set<RoleEntity> roles = new HashSet<>();
 }
 
 

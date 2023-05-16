@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ro.itschool.InvoiceManagementApp.dtos.client.ClientDTO;
@@ -45,7 +44,6 @@ public class ClientResource {
 
     @Operation(summary = "Getting all clients")
     @GetMapping("/get")
-    @PreAuthorize("hasRole(ADMIN)")
     public ResponseEntity<ClientListDTO> getAll() {
         log.info("getting all clients from database");
         Iterable<ClientEntity> dbClients = this.clientService.findAll();
@@ -61,7 +59,6 @@ public class ClientResource {
 
     @Operation(summary = "Getting clients by their index")
     @GetMapping("/get/id={index}")
-    @PreAuthorize("hasRole(ADMIN)")
     public ResponseEntity<ClientDTO> getById(@Min(1) @PathVariable("index") Integer index) {
         log.info("getting client by index");
 
@@ -85,8 +82,6 @@ public class ClientResource {
 
 
     @PostMapping("/register")
-    @PreAuthorize("hasRole(ADMIN) or hasRole(BASIC_USER)")
-
     public ResponseEntity<ClientDTO> register(@Valid @RequestBody ClientDTO clientDTO) {
         try {
             ClientEntity clientEntity = this.clientService.add(clientDTO);
