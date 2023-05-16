@@ -54,10 +54,10 @@ public class InvoiceService {
         Optional<List<UtilityProviderEntity>> searchUtp = this.utilityProviderService.search(settingInvoiceDTO.getUtilityProviderEmail());
         log.info("search u");
         if (searchClient.isEmpty()) {
-            throw new InexistentResourceException("Client not found", null);
+            throw new InexistentResourceException("Client not found in database", null);
         }
         if (searchUtp.isEmpty()) {
-            throw new InexistentResourceException("Utility provider not found", null);
+            throw new InexistentResourceException("Utility provider not found in database", null);
         }
 
         List<ClientEntity> foundClient = searchClient.get();
@@ -80,15 +80,15 @@ public class InvoiceService {
         return savedInvoice;
     }
 
-    public InvoiceEntity updateData(Integer id, SettingInvoiceDTO invoiceDTO) throws InexistentResourceException {
+    public InvoiceEntity updateData(Integer id, SettingInvoiceDTO settingInvoiceDTO) throws InexistentResourceException {
         log.info("Updating invoice with id: " + id);
         InvoiceEntity foundInvoice = findById(id);
 
-        if(invoiceDTO.getSumToPay() != null){
-            foundInvoice.setSumToPay(invoiceDTO.getSumToPay());
+        if(settingInvoiceDTO.getSumToPay() != null){
+            foundInvoice.setSumToPay(settingInvoiceDTO.getSumToPay());
         }
-        if(invoiceDTO.getDateSent() != null){
-            foundInvoice.setDateSent(invoiceDTO.getDateSent());
+        if(settingInvoiceDTO.getDateSent() != null){
+            foundInvoice.setDateSent(settingInvoiceDTO.getDateSent());
         }
 
         this.invoiceRepository.save(foundInvoice);
@@ -96,6 +96,8 @@ public class InvoiceService {
     }
 
     public void delete(Integer id) throws InexistentResourceException {
+
+
          this.invoiceRepository.deleteById(findById(id).getId());
     }
 }

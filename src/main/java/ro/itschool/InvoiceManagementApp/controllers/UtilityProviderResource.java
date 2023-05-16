@@ -144,6 +144,7 @@ public class UtilityProviderResource {
         try {
             this.utilityProviderService.delete(index);
             response="Deleted utility provider with id: "+index+" successfully";
+            log.info(response);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (InexistentResourceException e){
             response = e.getMessage()+e.getId();

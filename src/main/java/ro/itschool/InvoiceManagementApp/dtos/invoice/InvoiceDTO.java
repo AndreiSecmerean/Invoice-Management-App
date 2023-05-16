@@ -40,7 +40,7 @@ public class InvoiceDTO {
                 .build();
     }
 
-    public List<InvoiceDTO> from(List<InvoiceEntity> invoiceEntities){
+    public static List<InvoiceDTO> from(List<InvoiceEntity> invoiceEntities){
         List<InvoiceDTO> resultingInvoices = new ArrayList<>();
 
         for(InvoiceEntity invoices : invoiceEntities){
