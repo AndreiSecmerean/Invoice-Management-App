@@ -21,7 +21,7 @@ import java.util.Optional;
 /*
 Description:
 This is the controller for the client. The client needs to do a request
-regarding only his opperations(see bellow) and will not have access to
+regarding only his operations(see bellow) and will not have access to
 operations of other user types
 
 The client has access only to the following operations:
@@ -62,9 +62,8 @@ public class ClientResource {
     public ResponseEntity<ClientDTO> getById(@Min(1) @PathVariable("index") Integer index) {
         log.info("getting client by index");
 
-        ClientEntity foundClient = null;
         try {
-            foundClient = this.clientService.findById(index);
+            ClientEntity foundClient = this.clientService.findById(index);
             log.debug("found client");
 
             ClientDTO clientDTO = ClientDTO.from(foundClient);

@@ -22,8 +22,6 @@ import java.util.Optional;
 Description:
 The admin has control over all the data of the database
 
-The admin has access only to the following operations:
-
  */
 @RestController
 @RequestMapping("/api/admin")
@@ -36,7 +34,6 @@ public class AdminResource {
     @GetMapping("/get")
     public ResponseEntity<AdminListDTO> getAll() {
         log.info("Getting all admins from database");
-        AdminListDTO adminListDTO;
         try {
             Iterable<AdminEntity> dbAdmin = this.adminService.findAll();
             List<AdminDTO> foundAdminList = new ArrayList<>();
@@ -48,13 +45,12 @@ public class AdminResource {
                 throw new InexistentResourceException("No admins found in database!!!", null);
             }
 
-            adminListDTO = new AdminListDTO(foundAdminList);
+            AdminListDTO adminListDTO = new AdminListDTO(foundAdminList);
             log.info("Retrieved admins from database");
             return new ResponseEntity<>(adminListDTO, HttpStatus.FOUND);
         } catch (InexistentResourceException e) {
             log.error(e.getMessage());
-            adminListDTO = null;
-            return new ResponseEntity<>(adminListDTO, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
     }
 
